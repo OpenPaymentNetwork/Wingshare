@@ -3,6 +3,7 @@ require 'haml'
 require 'oauth2'
 require 'json'
 
+auth_url="http://lucia:5000/authorized"
 configure do
     Users={}
     id=ENV["WING_ID"]
@@ -13,7 +14,7 @@ configure do
         :token_url => "/token",
         );
     set :auth_link, Client.auth_code.authorize_url(
-        :redirect_uri => 'http://lucia:5000/authorized',
+        :redirect_uri => auth_url,
         :state => 'confusion')
 end
 
@@ -26,12 +27,13 @@ get '/authorized' do
     atoken = params['code']
     begin
       token = Client.auth_code.get_token(atoken,
-        :redirect_uri => 'http://lucia:5000/authorized')
+        :redirect_uri => auth_url)
       info = token.get('/me').parsed
       Users[info['id']]=info
+      # views/welcome.haml
       haml :welcome, :locals => {:info => info}
     rescue
-      #puts Client.id
+      # views/error.haml
       haml :error
     end
 end
