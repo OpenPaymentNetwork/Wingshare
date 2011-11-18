@@ -29,18 +29,9 @@ get '/authorized' do
         :redirect_uri => 'http://lucia:5000/authorized')
       info = token.get('/me').parsed
       Users[info['id']]=info
-      "<h3>UserInfo:</h3>"+
-          "<div>Welcome <a href='#{info['url']}'>#{info['display_name']}</a>."+
-          "<br/><a href='/'>Continue</a>"+
-          "</div>"
+      haml :welcome, :locals => {:info => info}
     rescue
       #puts Client.id
-      haml <<EOX
-%h3= $!.code || "Oops!"
-%div{:style=>"border: dotted firebrick; width: 320px"}
-  %span= $!.description
-%div
-  %a{:href=>"/"} Continue
-EOX
+      haml :error
     end
 end

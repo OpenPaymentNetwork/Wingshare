@@ -1,0 +1,8 @@
+%html
+  %head
+  %body
+    %h3= $!.code || "Oops!"
+    %div{:style=>"border:dotted firebrick; width:320px; text-align:center;"}
+      %span= $!.description
+    %div
+      %a{:href=>"/"} Continue
