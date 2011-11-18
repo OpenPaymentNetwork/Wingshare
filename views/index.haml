@@ -1,0 +1,19 @@
+%html
+  %head
+    %title Wingshare
+    %link{:type=>'text/css', :rel=>'stylesheet', :href=>'site.css'}
+    %script{:type=>'text/javascript', :src=>'/jquery.js'}
+    %script{:type=>'text/javascript'}= "db="+Users.to_json
+  %body
+    #header Wingshare
+    #photos
+    #main 
+    #info
+      %a{:href=>options.auth_link} Join the list
+    #footer Copyright &copy; 2011 WingCash LLC
+    :javascript
+      $("#main").append("<div>Recent visitors:<ul></ul></div>");
+      for (k in db){$("#main ul")
+        .append("<li>"+db[k].display_name+"</li>")}
+      for (k in db){$("#photos")
+        .append("<img src='"+db[k].photo50+"' title='"+db[k].display_name+"'></img>")}
