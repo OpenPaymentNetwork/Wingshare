@@ -32,7 +32,7 @@ get '/authorized' do
       Users[info['id']]=info
       # views/welcome.haml
       haml :welcome, :locals => {:info => info}
-    rescue
+    rescue OAuth2::Error
       # views/error.haml
       haml :error
     end
